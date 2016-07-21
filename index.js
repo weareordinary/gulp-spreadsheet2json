@@ -70,7 +70,7 @@ module.exports = function (options) {
 
         /* Call XLSX */
         var workbook = XLSX.read(bString, {type: "binary"});
-        file.contents = new Buffer(JSON.stringify(toJson(workbook, options.headRow || 1, options.valueRowStart || 2)));
+        file.contents = new Buffer(JSON.stringify(toJson(workbook, options.headRow || 1, options.valueRowStart || 2, options.startColumn || 'A')));
 
         if (options.trace) {
             console.log("convert file :" + file.path);

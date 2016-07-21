@@ -1,24 +1,30 @@
-# gulp-excel2json
-> Excel (XLSX/XLS) to json.
+# gulp-spreadsheet2json
+> Excel (XLSX/XLS/ODS) to json.
 
 
 ## Usage
-First, install `gulp-excel2json` as a development dependency:
+First, install `gulp-spreadsheet2json` as a development dependency:
 
 ```shell
-> npm install --save-dev gulp-excel2json
+npm install --save-dev gulp-spreadsheet2json
 ```
 
 Then, add it to your `gulpfile.js`:
 
 ```javascript
-var excel2json = require('gulp-excel2json');
+var xls2json = require('gulp-spreadsheet2json'),
+    spreadsheets= [
+        'config/**.xlsx',
+        'config/**.xls',
+        'config/**.ods',
+    ];
 
 gulp.task('copy', function() {
-    gulp.src('config/**.xlsx')
-        .pipe(excel2json({
+    gulp.src(spreadsheets)
+        .pipe(xls2json({
             headRow: 1,
             valueRowStart: 3,
+            startColumn: 'C',
             trace: true
         }))
         .pipe(gulp.dest('build'))
@@ -44,6 +50,13 @@ Default: `3`
 
 The start row number of values. (Start from 1)
 
+#### options.startColumn
+Type: `number`
+
+Default: `A`
+
+The start column Char of values. (Start from A)
+
 #### options.trace
 Type: `Boolean`
 
@@ -52,4 +65,4 @@ Default: `false`
 Whether to log each file path while convert success.
 
 ## License
-MIT &copy; Chris
+MIT &copy; Chris(https://github.com/chrisbing)
