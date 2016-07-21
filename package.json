@@ -1,6 +1,6 @@
 {
     "name": "gulp-spreadsheet2json",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Excel spreadsheet (XLSX/XLS/ODS) to json",
     "main": "index.js",
     "repository": {
