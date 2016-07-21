@@ -12,23 +12,38 @@ npm install --save-dev gulp-spreadsheet2json
 Then, add it to your `gulpfile.js`:
 
 ```javascript
-var xls2json = require('gulp-spreadsheet2json'),
-    spreadsheets= [
-        'config/**.xlsx',
-        'config/**.xls',
-        'config/**.ods',
-    ];
+(function() {
+    'use strict';
 
-gulp.task('copy', function() {
-    gulp.src(spreadsheets)
-        .pipe(xls2json({
-            headRow: 1,
-            valueRowStart: 3,
-            startColumn: 'C',
-            trace: true
-        }))
-        .pipe(gulp.dest('build'))
-});
+    var gulp = require('gulp'),
+        rename = require("gulp-rename"),
+        del = require("del"),
+        xls2json = require('gulp-spreadsheet2json'),
+        spreadsheets = [
+            'config/**.xlsx',
+            'config/**.xls',
+            'config/**.ods'
+        ];
+
+    gulp.task('clean', function() {
+        del('build');
+    });
+    
+    gulp.task('copy', ['clean'], function() {
+        gulp.src(spreadsheets)
+            .pipe(xls2json({
+                headRow: 1,
+                valueRowStart: 2,
+                startColumn: 'C',
+                trace: false
+            }))
+            .pipe(rename(function(path) {
+                path.extname = ".json";
+            }))
+            .pipe(gulp.dest('build'));
+    });
+
+}());
 ```
 
 
@@ -64,5 +79,11 @@ Default: `false`
 
 Whether to log each file path while convert success.
 
+
+## TODO
+
+* add options for workbook.Sheets index
+* add limit for rows
+
 ## License
-MIT &copy; Chris(https://github.com/chrisbing)
+MIT

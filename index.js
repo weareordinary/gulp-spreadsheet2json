@@ -6,7 +6,6 @@ var gutil = require('gulp-util'),
 
 var debug = false;
 
-//TODO: add options for: workbook.Sheets[workbook.SheetNames[0]];
 var log = function(msg) {
     if (debug) {
         console.log(msg);
