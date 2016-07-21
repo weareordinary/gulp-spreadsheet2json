@@ -2,6 +2,10 @@
 > Excel (XLSX/XLS/ODS) to json.
 
 
+[![NPM](https://nodei.co/npm/gulp-spreadsheet2json.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/gulp-spreadsheet2json/)
+[![NPM](https://nodei.co/npm-dl/gulp-spreadsheet2json.png)](https://nodei.co/npm/gulp-spreadsheet2json/)
+
+
 ## Usage
 First, install `gulp-spreadsheet2json` as a development dependency:
 
@@ -46,38 +50,16 @@ Then, add it to your `gulpfile.js`:
 }());
 ```
 
-
 ## API
 
-### excel2json([options])
+### spreadsheet2json([options])
 
-#### options.headRow
-Type: `number`
-
-Default: `1`
-
-The row number of head. (Start from 1).
-
-#### options.valueRowStart
-Type: `number`
-
-Default: `3`
-
-The start row number of values. (Start from 1)
-
-#### options.startColumn
-Type: `number`
-
-Default: `A`
-
-The start column Char of values. (Start from A)
-
-#### options.trace
-Type: `Boolean`
-
-Default: `false`
-
-Whether to log each file path while convert success.
+Name | Type | Default | Description
+--- | :---: | :---: | ---
+headRow | `number` | `1` | The row number of head. (Start from 1)
+valueRowStart | `number` | `3` | The start row number of values. (Start from 1)
+startColumn | `number` | `A` | The start column Char of values. (Start from A)
+trace | `Boolean` | `false` | Whether to log each file path while convert success.
 
 
 ## TODO
