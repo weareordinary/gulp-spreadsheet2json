@@ -1,10 +1,8 @@
 # gulp-spreadsheet2json
-> Excel (XLSX/XLS/ODS) to json.
+> Export Excel (XLSX/XLS/ODS) with headers to json (only first spreadsheet in file).
 
 
 [![NPM](https://nodei.co/npm/gulp-spreadsheet2json.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/gulp-spreadsheet2json/)
-[![NPM](https://nodei.co/npm-dl/gulp-spreadsheet2json.png)](https://nodei.co/npm/gulp-spreadsheet2json/)
-
 
 ## Usage
 First, install `gulp-spreadsheet2json` as a development dependency:
