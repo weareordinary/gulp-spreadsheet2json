@@ -19,24 +19,19 @@ Then, add it to your `gulpfile.js`:
 
     var gulp = require('gulp'),
         rename = require("gulp-rename"),
-        del = require("del"),
-        xls2json = require('gulp-spreadsheet2json'),
-        spreadsheets = [
+        xls2json = require('gulp-spreadsheet2json');
+
+    var spreadsheets = [
             'config/**.xlsx',
             'config/**.xls',
             'config/**.ods'
         ];
 
-    gulp.task('clean', function() {
-        del('build');
-    });
-    
-    gulp.task('copy', ['clean'], function() {
+    gulp.task('parse:spreadsheet', function() {
         gulp.src(spreadsheets)
             .pipe(xls2json({
                 headRow: 1,
                 valueRowStart: 2,
-                startColumn: 'C',
                 trace: false
             }))
             .pipe(rename(function(path) {
@@ -44,6 +39,8 @@ Then, add it to your `gulpfile.js`:
             }))
             .pipe(gulp.dest('build'));
     });
+
+    gulp.task('default', ['parse:spreadsheet']);
 
 }());
 ```
@@ -55,7 +52,7 @@ Then, add it to your `gulpfile.js`:
 Name | Type | Default | Description
 --- | :---: | :---: | ---
 headRow | `number` | `1` | The row number of head. (Start from 1)
-valueRowStart | `number` | `3` | The start row number of values. (Start from 1)
+valueRowStart | `number` | `2` | The start row number of values. (Start from 1)
 startColumn | `number` | `A` | The start column Char of values. (Start from A)
 trace | `Boolean` | `false` | Whether to log each file path while convert success.
 
