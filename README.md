@@ -45,6 +45,40 @@ Then, add it to your `gulpfile.js`:
 }());
 ```
 
+> Input
+
+color_name	| R	| G	| B
+--- | :---: | :---: | :---:
+illuminant	| 255	| 255	| 255
+dark skin	| 107	| 83	| 70
+light skin	| 182	| 147	| 128
+
+> Output
+
+```
+[
+    {
+        "color_name": "illuminant",
+        "R": 255.00000000002,
+        "G": 254.999999999984,
+        "B": 254.999999999997
+    },
+    {
+        "color_name": "dark skin",
+        "R": 106.732127788008,
+        "G": 82.6909148074604,
+        "B": 70.141586954399
+    },
+    {
+        "color_name": "light skin",
+        "R": 182.148358411673,
+        "G": 147.240481111174,
+        "B": 128.262943740921
+    }
+]
+```
+
+
 ## API
 
 ### spreadsheet2json([options])
