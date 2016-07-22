@@ -12,10 +12,19 @@ var log = function(msg) {
     }
 };
 
+/**
+ * Generate headers from row.
+ * @param worksheet {Object} - XLSX-Worksheet
+ * @param headRow {number} - Header row index.
+ * @param startColumn {string} - Column name, default 'A'
+ * @return {Array} Return Array of Headers.
+ * @example [{'A1': 'name'},{'B1': 'title'},{'C1': 'city'},...]
+ */
 var getHeaders = function(worksheet, headRow, startColumn) {
-    var headers = [];
-    for (var key in worksheet) {
+    var headers = [],
+        tmp = {};
 
+    for (var key in worksheet) {
         var cell = worksheet[key],
             match = /([A-Z]+)(\d+)/.exec(key);
 
@@ -28,32 +37,64 @@ var getHeaders = function(worksheet, headRow, startColumn) {
 
         if (col >= startColumn) {
             if (row == headRow) {
-                headers.push(cell.v);
-                // console.log(JSON.stringify(headers));
+                tmp[key] = cell.v;
+                headers.push(tmp);
             }
         }
     }
+
     return headers;
 };
 
-var createItem = function(headers) {
-    var obj = {};
-    headers.forEach(function(item) {
-        obj[item] = null;
-    });
-    return obj;
-};
+/**
+ * Get value of headers from _key
+ * @param _headers {Array} - Array of generated headers.
+ * @param _headRow {number} - Index of header row. Default: 1.
+ * @param _key {string} - Column name, for example 'A' (without index).
+ * @return {*}
+ */
+var getHeadersValue = function(_headers, headRow, _key) {
+    var res = null;
+    var key = _key + '' + headRow;
 
+    _headers.forEach(function(item) {
+        if (item.hasOwnProperty(key)) {
+            res = item[key];
+        }
+    })
+
+    return res;
+}
+
+var createItem = function(headers) {
+    var res = {};
+    // headers.forEach(function(item, index) {
+    //     log(item + ' - ' + index);
+    //     obj[item] = null;
+    // });
+
+    for (var obj in headers) {
+        if (headers.hasOwnProperty(obj)) {
+            for (var prop in headers[obj]) {
+                if (headers[obj].hasOwnProperty(prop)) {
+                    // log(prop + ':' + headers[obj][prop]);
+                    res[headers[obj][prop]] = null;
+                }
+            }
+        }
+    }
+
+    return res;
+};
 
 /**
  * excel filename or workbook to json
  * @param fileName
  * @param headRow
  * @param valueRow
- * @returns {{}} json
+ * @returns {Array} json
  */
 var toJson = function(fileName, headRow, valueRow, startColumn) {
-    log('---------- toJSON() -------');
     var workbook;
 
     if (typeof fileName === 'string') {
@@ -71,6 +112,7 @@ var toJson = function(fileName, headRow, valueRow, startColumn) {
         col,
         cell,
         match,
+        index,
         headers = getHeaders(worksheet, headRow, startColumn);
 
     for (var key in worksheet) {
@@ -85,22 +127,19 @@ var toJson = function(fileName, headRow, valueRow, startColumn) {
             row = match[2]; // 1234
             col = match[1]; // ABCD
 
-            // check if we have a new line
-            if (row > curRow) {
-                curRow = row;
-                namemap = createItem(headers);
-            }
-
-            value = cell.v || null;
+            value = cell.v;
 
             if (col >= startColumn) {
                 if (row < valueRow) {
                     //continue;
                 } else {
-                    log('-- key[' + col + ':' + row + '] => ' + value);
+                    // check if we have a new line
+                    if (row > curRow) {
+                        curRow = row;
+                        namemap = createItem(headers);
+                    }
 
-                    var colIndex = col.charCodeAt() - startColumn.charCodeAt();
-                    namemap[headers[colIndex]] = value;
+                    namemap[getHeadersValue(headers, headRow, col)] = value;
 
                     json[row - headRow - 1] = JSON.parse(JSON.stringify(namemap));
                 }
@@ -137,7 +176,6 @@ module.exports = function(options) {
         file.contents = new Buffer(JSON.stringify(toJson(workbook, options.headRow || 1, options.valueRowStart || 2, options.startColumn || 'A')));
 
         log("Convert file: " + file.path);
-
 
         this.push(file);
         cb();
