@@ -21,8 +21,7 @@ var log = function(msg) {
  * @example [{'A1': 'name'},{'B1': 'title'},{'C1': 'city'},...]
  */
 var getHeaders = function(worksheet, headRow, startColumn) {
-    var headers = [],
-        tmp = {};
+    var headers = [];
 
     for (var key in worksheet) {
         var cell = worksheet[key],
@@ -32,11 +31,16 @@ var getHeaders = function(worksheet, headRow, startColumn) {
             continue;
         }
 
-        var row = match[2]; // 1234
+        var row = +match[2]; // 1234
         var col = match[1]; // ABCD
 
+        if (row !== headRow) {
+            return headers;
+        }
+
         if (col >= startColumn) {
-            if (row == headRow) {
+            if (row === headRow) {
+                var tmp = {};
                 tmp[key] = cell.v;
                 headers.push(tmp);
             }
@@ -53,38 +57,33 @@ var getHeaders = function(worksheet, headRow, startColumn) {
  * @param _key {string} - Column name, for example 'A' (without index).
  * @return {*}
  */
-var getHeadersValue = function(_headers, headRow, _key) {
+var getHeadersValue = function(_headers, _headRow, _key) {
     var res = null;
-    var key = _key + '' + headRow;
+    var key = _key + '' + _headRow;
 
     _headers.forEach(function(item) {
         if (item.hasOwnProperty(key)) {
             res = item[key];
         }
-    })
+    });
 
     return res;
-}
+};
 
+/**
+ * Create dummy object from headers
+ * @param {Array<Object>} headers
+ */
 var createItem = function(headers) {
     var res = {};
-    // headers.forEach(function(item, index) {
-    //     log(item + ' - ' + index);
-    //     obj[item] = null;
-    // });
 
-    for (var obj in headers) {
-        if (headers.hasOwnProperty(obj)) {
-            for (var prop in headers[obj]) {
-                if (headers[obj].hasOwnProperty(prop)) {
-                    // log(prop + ':' + headers[obj][prop]);
-                    res[headers[obj][prop]] = null;
-                }
-            }
-        }
-    }
+    //create res object with all properties from headers
+    headers.forEach(function(item, index) {
+        var name = Object.keys(item)[0];
+        res[item[name]] = '';
+    });
 
-    return res;
+    return JSON.parse(JSON.stringify(res));
 };
 
 /**
@@ -92,6 +91,7 @@ var createItem = function(headers) {
  * @param fileName
  * @param headRow
  * @param valueRow
+ * @param startColumn
  * @returns {Array} json
  */
 var toJson = function(fileName, headRow, valueRow, startColumn) {
@@ -172,7 +172,8 @@ module.exports = function(options) {
         var bString = arr.join("");
 
         /* Call XLSX */
-        var workbook = XLSX.read(bString, {type: "binary", sheetStubs: true, cellHTML: true});
+        // TODO: add read-options for XLSX-module
+        var workbook = XLSX.read(bString, {type: "binary"});
         file.contents = new Buffer(JSON.stringify(toJson(workbook, options.headRow || 1, options.valueRowStart || 2, options.startColumn || 'A')));
 
         log("Convert file: " + file.path);
