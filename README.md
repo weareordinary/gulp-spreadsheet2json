@@ -4,6 +4,10 @@
 
 [![NPM](https://nodei.co/npm/gulp-spreadsheet2json.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/gulp-spreadsheet2json/)
 
+# ATTENTION!
+
+> I found a small bug with OpenOffice `ODT` files. If table has many columns, `XLSX.js` doesn't read all columns, but same table in `XLS` format work stabil!
+
 ## Usage
 First, install `gulp-spreadsheet2json` as a development dependency:
 
@@ -93,7 +97,7 @@ trace | `Boolean` | `false` | Whether to log each file path while convert succes
 
 ## TODO
 
-* add options for workbook.Sheets index
+* add option for workbook.Sheets index
 * add limit for rows
 
 ## License

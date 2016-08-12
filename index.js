@@ -74,8 +74,9 @@ var getHeadersValue = function(_headers, _headRow, _key) {
  * Create dummy object from headers
  * @param {Array<Object>} headers
  */
-var createItem = function(headers) {
-    var res = {};
+var createItem = function(_headers) {
+    var res = {},
+        headers = JSON.parse(JSON.stringify(_headers));
 
     //create res object with all properties from headers
     headers.forEach(function(item, index) {
@@ -90,11 +91,11 @@ var createItem = function(headers) {
  * excel filename or workbook to json
  * @param fileName
  * @param headRow
- * @param valueRow
+ * @param startRow
  * @param startColumn
  * @returns {Array} json
  */
-var toJson = function(fileName, headRow, valueRow, startColumn) {
+var toJson = function(fileName, headRow, startRow, startColumn) {
     var workbook;
 
     if (typeof fileName === 'string') {
@@ -105,15 +106,18 @@ var toJson = function(fileName, headRow, valueRow, startColumn) {
 
     var worksheet = workbook.Sheets[workbook.SheetNames[0]],
         json = [],
-        namemap = {},
-        curRow = 0,
+        namemap,
+        curRow,
         value,
         row,
         col,
         cell,
         match,
         index,
+        _c = 0,
         headers = getHeaders(worksheet, headRow, startColumn);
+
+    namemap = createItem(headers);
 
     for (var key in worksheet) {
         if (worksheet.hasOwnProperty(key)) {
@@ -124,28 +128,33 @@ var toJson = function(fileName, headRow, valueRow, startColumn) {
                 continue;
             }
 
-            row = match[2]; // 1234
+            row = +match[2]; // 1234
             col = match[1]; // ABCD
+
+            curRow = row - startRow;
 
             value = cell.v;
 
             if (col >= startColumn) {
-                if (row < valueRow) {
+                if (row < startRow) {
                     //continue;
                 } else {
                     // check if we have a new line
-                    if (row > curRow) {
-                        curRow = row;
+
+                    if (_c < curRow) {
+                        json[_c] = JSON.parse(JSON.stringify(namemap));
                         namemap = createItem(headers);
+                        _c++;
                     }
 
                     namemap[getHeadersValue(headers, headRow, col)] = value;
-
-                    json[row - headRow - 1] = JSON.parse(JSON.stringify(namemap));
                 }
             }
         }
     }
+
+    json[_c] = JSON.parse(JSON.stringify(namemap));
+
     return json;
 };
 
