@@ -91,7 +91,7 @@ Name | Type | Default | Description
 --- | :---: | :---: | ---
 headRow | `number` | `1` | The row number of head. (Start from 1)
 valueRowStart | `number` | `2` | The start row number of values. (Start from 1)
-startColumn | `number` | `A` | The start column Char of values. (Start from A)
+startColumn | `string` | `A` | The start column Char of values. (Start from A)
 trace | `Boolean` | `false` | Whether to log each file path while convert success.
 
 

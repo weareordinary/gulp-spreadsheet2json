@@ -34,16 +34,22 @@ var getHeaders = function(worksheet, headRow, startColumn) {
         var row = +match[2]; // 1234
         var col = match[1]; // ABCD
 
-        if (row !== headRow) {
-            return headers;
+        // If we've read past the header row, there is nothing else we're
+        // going to do, so return the headers we've found.
+        if (row > headRow) {
+            break;
         }
 
+        // If we aren't at the header row, then move to the next one.
+        if (row < headRow) {
+            continue;
+        }
+
+        // Pull in the data from the column, if we are in the right one.
         if (col >= startColumn) {
-            if (row === headRow) {
-                var tmp = {};
-                tmp[key] = cell.v;
-                headers.push(tmp);
-            }
+            var tmp = {};
+            tmp[key] = cell.v;
+            headers.push(tmp);
         }
     }
 
