@@ -1,78 +1,29 @@
 {
-  "_from": "gulp-spreadsheet2json",
-  "_id": "gulp-spreadsheet2json@1.0.6",
-  "_inBundle": false,
-  "_integrity": "sha1-+CjXThO7ad7gRoUoK30mdorg50M=",
-  "_location": "/gulp-spreadsheet2json",
-  "_phantomChildren": {
-    "readable-stream": "2.3.6"
+  "name": "gulp-xlsx-to-json",
+  "version": "1.0.0",
+  "description": "Custom XLS to JSON converter",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "_requested": {
-    "type": "tag",
-    "registry": true,
-    "raw": "gulp-spreadsheet2json",
-    "name": "gulp-spreadsheet2json",
-    "escapedName": "gulp-spreadsheet2json",
-    "rawSpec": "",
-    "saveSpec": null,
-    "fetchSpec": "latest"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/weareordinary/gulp-spreadsheet2json.git"
   },
-  "_requiredBy": [
-    "#DEV:/",
-    "#USER"
-  ],
-  "_resolved": "https://registry.npmjs.org/gulp-spreadsheet2json/-/gulp-spreadsheet2json-1.0.6.tgz",
-  "_shasum": "f828d74e13bb69dee04685282b7d26768ae0e743",
-  "_spec": "gulp-spreadsheet2json",
-  "_where": "/Users/PBergmann/WWW/Bosch/electron-react-boilerplate/testing",
-  "author": {
-    "name": "Ali Elderov",
-    "email": "elderov@gmail.com"
-  },
-  "bugs": {
-    "url": "https://github.com/cyberkatze/gulp-spreadsheet2json/issues"
-  },
-  "bundleDependencies": false,
-  "contributors": [
-    {
-      "name": "Dylan R. E. Moonfire",
-      "email": "d.moonfire@mfgames.com"
-    }
-  ],
   "dependencies": {
     "file-name": "^0.1.0",
     "gulp-util": "^3.0.7",
     "through2": "^2.0.0",
     "xlsx": "^0.8.0"
   },
-  "deprecated": false,
-  "description": "Excel spreadsheet (XLSX/XLS/ODS) to json",
-  "devDependencies": {},
-  "files": [
-    "index.js"
-  ],
-  "homepage": "https://github.com/cyberkatze/gulp-spreadsheet2json#readme",
   "keywords": [
-    "gulp",
-    "gulpplugin",
-    "excel",
     "xls",
-    "xlsx",
-    "ods",
-    "spreadsheet",
-    "json",
-    "convert",
-    "parser"
+    "json"
   ],
-  "license": "MIT",
-  "main": "index.js",
-  "name": "gulp-spreadsheet2json",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/cyberkatze/gulp-spreadsheet2json.git"
+  "author": "Philipp Bergmann <hello@all-zippy.com> (http://www.weareordinary.net)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/weareordinary/gulp-spreadsheet2json/issues"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "version": "1.0.6"
+  "homepage": "https://github.com/weareordinary/gulp-spreadsheet2json#readme"
 }
