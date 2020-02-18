@@ -4,8 +4,7 @@ const readXlsxFile = require('read-excel-file/node');
 
 var gutil = require('gulp-util'),
     through = require('through2'),
-    fs = require('fs-extra'),
-    filename = require('file-name')
+    fs = require('fs-extra')
 
 
 function readXls(filePath) {
